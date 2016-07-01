@@ -24,3 +24,7 @@ $ npm test
 $ npm run test-single-run
 ```
 
+
+# License
+MIT
+
