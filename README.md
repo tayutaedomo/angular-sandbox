@@ -1,6 +1,8 @@
 # angular-trial
 Try AngularJS
 
+- [https://tayutaedomo-angular-trial.herokuapp.com](https://tayutaedomo-angular-trial.herokuapp.com)
+
 
 # Setup on your local
 Install node-dev if you need.
