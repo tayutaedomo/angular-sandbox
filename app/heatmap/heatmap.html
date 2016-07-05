@@ -1,11 +1,13 @@
 <div class="row">
-  <div class="col-sm-12" style="width: 256px; height: 256px;">
-    <heatmap id="heatmap-1"
-             data="heatmap.heatmapData"
-             config="heatmap.heatmapConfig"
-             ng-click="heatmap.updateData()">
-    </heatmap>
+  <div class="col-sm-12">
+    <div class="heatmap-wrap" style="width: 256px; height: 256px;">
+      <heatmap id="heatmap-1"
+               data="heatmap.heatmapData"
+               config="heatmap.heatmapConfig">
+      </heatmap>
     </div>
+
+    <button class="btn btn-primary" ng-click="heatmap.updateData()">re-generate data</button>
   </div>
 </div>
 
