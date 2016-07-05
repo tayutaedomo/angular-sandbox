@@ -2,9 +2,12 @@
   <div class="col-sm-12">
     <div class="heatmap-wrap" style="width: 256px; height: 256px;">
       <heatmap id="heatmap-1"
+               ng-mousemove="heatmap.on_mousemove($event)"
+               ng-mouseleave="heatmap.on_mouseleave($event)"
                data="heatmap.heatmapData"
                config="heatmap.heatmapConfig">
       </heatmap>
+      <div class="heatmap-tooltip"></div>
     </div>
 
     <button class="btn btn-primary" ng-click="heatmap.updateData()">re-generate data</button>

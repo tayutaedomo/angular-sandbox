@@ -13,8 +13,13 @@
   function HeatmapController($heatmap) {
     var that = this;
 
+
+    this.get_heatmap_instance = function() {
+      return $heatmap.getInstance('heatmap-1');
+    }
+
     // Refer: https://github.com/pa7/heatmap.js/blob/master/examples/angular-heatmap/index.html
-    function generateRandomData(len) {
+    function generate_random_data(len) {
       var max = 100;
       var min = 1;
       var maxX = document.body.clientWidth;
@@ -35,7 +40,7 @@
       }
     }
 
-    this.heatmapData = generateRandomData(1000);
+    this.heatmapData = generate_random_data(1000);
     this.heatmapConfig = {
       width: 256,
       height: 256,
@@ -45,7 +50,39 @@
     };
 
     this.updateData = function() {
-      that.heatmapData = generateRandomData(1000);
+      that.heatmapData = generate_random_data(1000);
+    };
+
+    this.tooltip = document.querySelector('.heatmap-tooltip');
+
+    this.update_tooltip = function updateTooltip(x, y, value) {
+      var transform = 'translate(' + (x + 15) + 'px, ' + (y + 15) + 'px)';
+      that.tooltip.style.MozTransform = transform;
+      that.tooltip.style.msTransform = transform;
+      that.tooltip.style.OTransform = transform;
+      that.tooltip.style.WebkitTransform = transform;
+      that.tooltip.style.transform = transform;
+      that.tooltip.innerHTML = value;
+    };
+
+    this.on_mousemove = function($event) {
+      //console.log($event);
+      var x = $event.offsetX;
+      var y = $event.offsetY;
+      console.log('x:y', x, y);
+
+      // getValueAt gives us the value for a point p(x/y)
+      var instance = that.get_heatmap_instance();
+      var value = instance.getValueAt({ x: x, y: y });
+      console.log('heatmapInstance.getValueAt', value);
+
+      that.tooltip.style.display = 'block';
+      that.update_tooltip(x, y, value);
+    };
+
+    this.on_mouseleave = function($event) {
+      console.log($event);
+      that.tooltip.style.display = 'none';
     };
   }
   HeatmapController.$inject = ['$heatmap'];
