@@ -10,16 +10,28 @@
   }
   RouteConfig.$inject = ['$routeProvider'];
 
+  // TODO
+  function HeatmapJsToolitpController() {
+  }
+  function HeatmapJsToolitpDirective() {
+    return {
+      restrict: 'A',
+      scope: {},
+      link: function(scope, element, attrs) {
+      }
+    };
+  }
+
   function HeatmapController($heatmap) {
     var that = this;
 
 
     this.get_heatmap_instance = function() {
       return $heatmap.getInstance('heatmap-1');
-    }
+    };
 
     // Refer: https://github.com/pa7/heatmap.js/blob/master/examples/angular-heatmap/index.html
-    function generate_random_data(len) {
+    this.generate_random_data = function(len) {
       var max = 100;
       var min = 1;
       var maxX = document.body.clientWidth;
@@ -40,7 +52,7 @@
       }
     }
 
-    this.heatmapData = generate_random_data(1000);
+    this.heatmapData = this.generate_random_data(1000);
     this.heatmapConfig = {
       width: 256,
       height: 256,
@@ -50,7 +62,7 @@
     };
 
     this.updateData = function() {
-      that.heatmapData = generate_random_data(1000);
+      that.heatmapData = that.generate_random_data(1000);
     };
 
     this.tooltip = document.querySelector('.heatmap-tooltip');
