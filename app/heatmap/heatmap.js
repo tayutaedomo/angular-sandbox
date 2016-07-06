@@ -10,14 +10,54 @@
   }
   RouteConfig.$inject = ['$routeProvider'];
 
-  // TODO
-  function HeatmapJsToolitpController() {
+  function HeatmapJsToolitpController($heatmap) {
+    this.$heatmap = $heatmap;
+
+    this.getHeatmapInstance = function() {
+      var container_id = this.container || 'heatmap-container';
+      return $heatmap.getInstance(container_id);
+    }
   }
+  HeatmapJsToolitpController.$inject = ['$heatmap'];
+
   function HeatmapJsToolitpDirective() {
     return {
-      restrict: 'A',
+      restrict: 'EA',
       scope: {},
-      link: function(scope, element, attrs) {
+      bindToController: {
+        container: "@"
+      },
+      controller: HeatmapJsToolitpController,
+      controllerAs: "$ctrl",
+      template: '<span class="heatmap-tooltip"></span>',
+      link: function(scope, element, attrs, $ctrl) {
+
+        function update_tooltip(tooltip, x, y, value) {
+          var transform = 'translate(' + (x + 15) + 'px, ' + (y + 15) + 'px)';
+          tooltip.style.MozTransform = transform;
+          tooltip.style.msTransform = transform;
+          tooltip.style.OTransform = transform;
+          tooltip.style.WebkitTransform = transform;
+          tooltip.style.transform = transform;
+          tooltip.innerHTML = value;
+        }
+
+        var instance = $ctrl.getHeatmapInstance();
+        var container = document.querySelector('#' + $ctrl.container);
+        var tooltip = document.querySelector('.heatmap-tooltip');
+
+        $(container).mousemove(function(event) {
+          var x = event.offsetX;
+          var y = event.offsetY;
+          var value = instance.getValueAt({ x: x, y: y });
+
+          tooltip.style.display = 'block';
+          update_tooltip(tooltip, x, y, value);
+        });
+
+        $(container).mouseout(function() {
+          tooltip.style.display = 'none';
+        });
       }
     };
   }
@@ -50,7 +90,7 @@
         min: min,
         data: data
       }
-    }
+    };
 
     this.heatmapData = this.generate_random_data(1000);
     this.heatmapConfig = {
@@ -67,40 +107,41 @@
 
     this.tooltip = document.querySelector('.heatmap-tooltip');
 
-    this.update_tooltip = function updateTooltip(x, y, value) {
-      var transform = 'translate(' + (x + 15) + 'px, ' + (y + 15) + 'px)';
-      that.tooltip.style.MozTransform = transform;
-      that.tooltip.style.msTransform = transform;
-      that.tooltip.style.OTransform = transform;
-      that.tooltip.style.WebkitTransform = transform;
-      that.tooltip.style.transform = transform;
-      that.tooltip.innerHTML = value;
-    };
-
-    this.on_mousemove = function($event) {
-      //console.log($event);
-      var x = $event.offsetX;
-      var y = $event.offsetY;
-      console.log('x:y', x, y);
-
-      // getValueAt gives us the value for a point p(x/y)
-      var instance = that.get_heatmap_instance();
-      var value = instance.getValueAt({ x: x, y: y });
-      console.log('heatmapInstance.getValueAt', value);
-
-      that.tooltip.style.display = 'block';
-      that.update_tooltip(x, y, value);
-    };
-
-    this.on_mouseleave = function($event) {
-      console.log($event);
-      that.tooltip.style.display = 'none';
-    };
+    //this.update_tooltip = function updateTooltip(x, y, value) {
+    //  var transform = 'translate(' + (x + 15) + 'px, ' + (y + 15) + 'px)';
+    //  that.tooltip.style.MozTransform = transform;
+    //  that.tooltip.style.msTransform = transform;
+    //  that.tooltip.style.OTransform = transform;
+    //  that.tooltip.style.WebkitTransform = transform;
+    //  that.tooltip.style.transform = transform;
+    //  that.tooltip.innerHTML = value;
+    //};
+    //
+    //this.on_mousemove = function($event) {
+    //  //console.log($event);
+    //  var x = $event.offsetX;
+    //  var y = $event.offsetY;
+    //  console.log('x:y', x, y);
+    //
+    //  // getValueAt gives us the value for a point p(x/y)
+    //  var instance = that.get_heatmap_instance();
+    //  var value = instance.getValueAt({ x: x, y: y });
+    //  console.log('heatmapInstance.getValueAt', value);
+    //
+    //  that.tooltip.style.display = 'block';
+    //  that.update_tooltip(x, y, value);
+    //};
+    //
+    //this.on_mouseleave = function($event) {
+    //  console.log($event);
+    //  that.tooltip.style.display = 'none';
+    //};
   }
   HeatmapController.$inject = ['$heatmap'];
 
   angular.module('myApp.heatmap', ['ngRoute', 'heatmap'])
     .config(RouteConfig)
+    .directive('heatmapTooltip', HeatmapJsToolitpDirective)
     .controller('HeatmapCtrl', HeatmapController);
 
 })();
