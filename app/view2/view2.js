@@ -1,5 +1,3 @@
-'use strict';
-
 (function(){
 
   angular.module('myApp.view2', ['ngRoute'])
@@ -12,6 +10,7 @@
     }])
 
     .controller('View2Ctrl', [function() {
+
     }]);
 
 })();
