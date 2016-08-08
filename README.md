@@ -20,6 +20,12 @@ $ bin/www
 Your app should now be running on http://localhost:3000.
 
 
+# Build
+```
+$ node_modules/.bin/gulp minify
+```
+
+
 # Test
 ```
 $ npm test
