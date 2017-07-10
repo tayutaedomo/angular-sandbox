@@ -8,6 +8,7 @@ angular.module('myApp', [
   'myApp.directive',
   'myApp.vjsVideo',
   'myApp.heatmap',
+  'myApp.agilecrm',
   'myApp.version'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
@@ -15,3 +16,4 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 
   $routeProvider.otherwise({redirectTo: '/view1'});
 }]);
+
