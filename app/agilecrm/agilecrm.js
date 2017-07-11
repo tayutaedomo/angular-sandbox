@@ -11,26 +11,45 @@
 
     .controller('AgilecrmCtrl', ['$window', function($window) {
       var that = this;
+      this.message = null;
       this.email = null;
 
+      this.clearMessage = function() {
+        that.message = null;
+      };
+
+      this.showMessage = function(message) {
+        that.message = message;
+      };
+
       this.doSetEmail = function() {
+        that.clearMessage();
+
         if ($window._agile) {
           $window._agile.set_email(that.email);
+          that.showMessage('set_email completed.');
+
         } else {
           console.log('doSetEmail _agile is empty.');
         }
-      }
+      };
 
       this.doSetEmailAndPageView = function() {
+        that.clearMessage();
+
         if ($window._agile) {
           $window._agile.set_email(that.email);
           $window._agile.track_page_view();
+          that.showMessage('set_email and track_page_view completed.');
+
         } else {
           console.log('doSetEmailWithPageView _agile is empty.');
         }
-      }
+      };
 
       this.doCreateContact = function() {
+        that.clearMessage();
+
         if (! $window._agile) {
           console.log('doCreateContact _agile is empty.');
           return;
@@ -56,6 +75,7 @@
         $window._agile.create_contact(contact, {
           success: function (data) {
             console.log('success');
+            that.showMessage('create_contact completed.');
           },
           error: function (data) {
             console.log('error');

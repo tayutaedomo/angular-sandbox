@@ -1,3 +1,7 @@
+<p class="bg-info" ng-show="agilecrmCtrl.message">
+  {{ agilecrmCtrl.message }}
+</p>
+
 <form>
   <label>Email</label>: <input type="text" ng-model="agilecrmCtrl.email"><br>
   <button class="btn btn-success btn-sm" ng-click="agilecrmCtrl.doSetEmail()">Do _agile.set_email</button>
