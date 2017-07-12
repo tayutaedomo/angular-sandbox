@@ -9,7 +9,7 @@
       });
     }])
 
-    .controller('AgilecrmCtrl', ['$window', function($window) {
+    .controller('AgilecrmCtrl', ['$scope', '$window', function($scope, $window) {
       var that = this;
       this.message = null;
       this.email = null;
@@ -19,6 +19,7 @@
       };
 
       this.showMessage = function(message) {
+        if (! message) return;
         that.message = message;
       };
 
@@ -75,10 +76,37 @@
         $window._agile.create_contact(contact, {
           success: function (data) {
             console.log('success');
-            that.showMessage('create_contact completed.');
+
+            $scope.$apply(function(){
+              that.showMessage('create_contact success.');
+            });
           },
           error: function (data) {
             console.log('error');
+            that.showMessage('create_contact error.');
+          }
+        });
+      };
+
+      this.doGetEmail = function() {
+        that.clearMessage();
+
+        if (! $window._agile) {
+          console.log('doGetEmail _agile is empty.');
+          return;
+        }
+
+        $window._agile.get_email({
+          success: function(data){
+            console.log(data);
+
+            $scope.$apply(function(){
+              that.showMessage(data.email);
+            });
+          },
+          error: function(data){
+            console.error(data);
+            that.showMessage(data.error);
           }
         });
       };
