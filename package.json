@@ -4,6 +4,10 @@
   "private": true,
   "repository": "https://github.com/tayutaedomo/angular-trial.git",
   "license": "MIT",
+  "engines": {
+    "node": "~8.1.4",
+    "npm": "~5.0.3"
+  },
   "dependencies": {
     "bower": "^1.7.7",
     "body-parser": "~1.15.1",
