@@ -9,6 +9,7 @@ angular.module('myApp', [
   'myApp.vjsVideo',
   'myApp.heatmap',
   'myApp.agilecrm',
+  'myApp.form',
   'myApp.version'
 ]).
 config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
