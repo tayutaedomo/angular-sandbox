@@ -2,9 +2,11 @@
   <!--<div class="checkbox">-->
   <div class="form-group">
     <label>
-      <input type="checkbox" ng-checked="formCtrl.checkbox == formCtrl.true_value"
-             ng-true-value="'{{ formCtrl.true_value }}'" ng-false-value="'{{ formCtrl.false_value }}'"
+      <input type="checkbox"
              ng-model="formCtrl.checkbox"
+             ng-checked="formCtrl.checkbox == formCtrl.true_value"
+             ng-true-value="'{{ formCtrl.true_value }}'"
+             ng-false-value="'{{ formCtrl.false_value }}'"
              ng-click="formCtrl.on_checkbox_click()"
              ng-change="formCtrl.on_checkbox_change()">
       Check me out
