@@ -9,8 +9,9 @@
       });
     }])
 
-    .controller('View1Ctrl', [function() {
-
+    .controller('View1Ctrl', ['GoogleAnalyticsService', function(GoogleAnalyticsService) {
+      GoogleAnalyticsService.setPage('view1', 'app');
+      GoogleAnalyticsService.sendEvent('Category 1', 'Action 1', 'Label 1', true);
     }]);
 
 })();
