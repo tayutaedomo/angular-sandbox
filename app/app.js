@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
   'ngRoute',
+  'pascalprecht.translate',
   'myApp.view1',
   'myApp.view2',
   'myApp.directive',
@@ -11,13 +12,30 @@ angular.module('myApp', [
   'myApp.agilecrm',
   'myApp.form',
   'myApp.version'
-]).
-config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
+])
+  .config(RouterConfig)
+  .config(TranslateConfig)
+  .service('GoogleAnalyticsService', GoogleAnalyticsService);
+
+function RouterConfig($locationProvider, $routeProvider) {
   $locationProvider.hashPrefix('!');
 
   $routeProvider.otherwise({redirectTo: '/view1'});
-}])
-.service('GoogleAnalyticsService', function($window) {
+}
+RouterConfig.$inject = ['$locationProvider', '$routeProvider'];
+
+function TranslateConfig($translateProvider, $translatePartialLoaderProvider) {
+  $translateProvider.useLoader('$translatePartialLoader', {
+    urlTemplate: '/languages/{part}/{lang}.json'
+  });
+
+  $translatePartialLoaderProvider.addPart('common');
+
+  $translateProvider.fallbackLanguage('en');
+}
+TranslateConfig.$inject = ['$translateProvider', '$translatePartialLoaderProvider'];
+
+function GoogleAnalyticsService($window) {
   var that = this;
   this.PAGE_NAME = 'Angular Sandbox';
   this.EVENT_VIRTUAL_PAGEVIEW = 'VirtualPageview';
@@ -50,5 +68,6 @@ config(['$locationProvider', '$routeProvider', function($locationProvider, $rout
 
     $window.dataLayer.push(params);
   };
-});
+}
+GoogleAnalyticsService.$inject = ['$window'];
 
