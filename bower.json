@@ -14,6 +14,7 @@
     "vjs-video": "^0.1.6",
     "angular-translate": "^2.17.0",
     "angular-translate-loader-static-files": "^2.17.0",
-    "angular-translate-loader-partial": "^2.17.0"
+    "angular-translate-loader-partial": "^2.17.0",
+    "angular-sanitize": "1.4.12"
   }
 }

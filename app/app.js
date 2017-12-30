@@ -2,6 +2,7 @@
 
 // Declare app level module which depends on views, and components
 angular.module('myApp', [
+  'ngSanitize',
   'ngRoute',
   'pascalprecht.translate',
   'myApp.view1',
@@ -32,6 +33,8 @@ function TranslateConfig($translateProvider, $translatePartialLoaderProvider) {
   $translatePartialLoaderProvider.addPart('common');
 
   $translateProvider.fallbackLanguage('en');
+
+  $translateProvider.useSanitizeValueStrategy('sanitize');
 }
 TranslateConfig.$inject = ['$translateProvider', '$translatePartialLoaderProvider'];
 
