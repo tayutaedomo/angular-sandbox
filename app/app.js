@@ -12,6 +12,7 @@ angular.module('myApp', [
   'myApp.heatmap',
   'myApp.agilecrm',
   'myApp.form',
+  'myApp.capture',
   'myApp.version'
 ])
   .config(RouterConfig)
