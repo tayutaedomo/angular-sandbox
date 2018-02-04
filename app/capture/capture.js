@@ -1,7 +1,7 @@
 
 (function(){
 
-  angular.module('myApp.capture', ['ngRoute'])
+  angular.module('myApp.capture', ['ngRoute', 'toaster', 'ngAnimate'])
 
     .config(['$routeProvider', function($routeProvider) {
       $routeProvider.when('/capture', {
@@ -13,8 +13,12 @@
     .service('S3UploadService', S3UploadService)
     .controller('CaptureCtrl', CaptureCtrl);
 
-  function CaptureCtrl(h2c, S3UploadService) {
-    var that = this;
+  function CaptureCtrl(h2c, toaster, S3UploadService) {
+    toaster.pop('info', "title", "text");
+    toaster.pop('success', "title", "text");
+    toaster.pop('warning', "title", "text");
+    toaster.pop('error', "title", "text");
+
     var container = document.querySelector('#capture_container');
 
     this.capture = function() {
@@ -37,14 +41,16 @@
         return S3UploadService.upload(canvas);
 
       }).then(function(data) {
+        toaster.pop('success', 'Screen captured.');
         console.log(data);
 
       }).catch(function(err) {
+        toaster.pop('error', 'Error occurred.');
         console.error(err);
       });
     };
   }
-  CaptureCtrl.$inject = ['html2canvas-angular', 'S3UploadService'];
+  CaptureCtrl.$inject = ['html2canvas-angular', 'toaster', 'S3UploadService'];
 
 
   // Refer: https://docs.aws.amazon.com/sdk-for-javascript/v2/developer-guide/s3-example-photo-album.html
